@@ -1,9 +1,9 @@
 package com.yuwen.support.util.statusbar;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
@@ -129,8 +129,10 @@ public class StatusBarHelper {
     /**
      * android 6.0设置字体颜色
      */
-    @TargetApi(Build.VERSION_CODES.M)
     private static boolean setUsualStatusBarDarkMode(Window window, boolean dark) {
+        // Android 6.0 以下不支持直接返回 False
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
+
         boolean result = false;
         if (window != null) {
             try {
@@ -186,19 +188,23 @@ public class StatusBarHelper {
      * 获取actionbar高度
      *
      * @param context   上下文
-     * @param actionbar 对应的ActionBar
+     * @param actionBar 对应的ActionBar
      * @return int ActionBar的高度值
      */
-    public static int getActionBarHeight(Context context, ActionBar actionbar) {
-        if (actionbar != null) {
-            TypedValue tv = new TypedValue();
-            if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize,
-                    tv, true)) {
-                return TypedValue.complexToDimensionPixelSize(tv.data, context
-                        .getResources().getDisplayMetrics());
+    public static int getActionBarHeight(Context context, ActionBar actionBar) {
+        Resources.Theme theme = context.getTheme();
+
+        if (theme != null && actionBar != null) {
+            TypedValue value = new TypedValue();
+
+            if (theme.resolveAttribute(android.R.attr.actionBarSize, value, true)) {
+                return TypedValue.complexToDimensionPixelSize(
+                        value.data, context.getResources().getDisplayMetrics());
             }
-            return actionbar.getHeight();
+
+            return actionBar.getHeight();
         }
+
         return 0;
     }
 
@@ -217,19 +223,14 @@ public class StatusBarHelper {
      * @return int 状态栏高度
      */
     public static int getStatusBarHeight(Context context) {
-        try {
-            Class<?> c = Class.forName("com.android.internal.R$dimen");
-            Object obj = c.newInstance();
-            Field field = c.getField("status_bar_height");
-            int height = Integer.parseInt(field.get(obj).toString());
-            return context.getResources().getDimensionPixelSize(height);
-        } catch (Exception e) {
-            e.printStackTrace();
+        int result = 0;
+        // 获得状态栏高度在系统中的的Id
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
         }
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            return 73;
-        } else {
-            return 72;
-        }
+
+        return result;
     }
 }
