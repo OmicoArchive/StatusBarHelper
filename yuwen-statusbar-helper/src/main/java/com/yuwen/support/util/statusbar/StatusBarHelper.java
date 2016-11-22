@@ -3,6 +3,7 @@ package com.yuwen.support.util.statusbar;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
@@ -187,19 +188,23 @@ public class StatusBarHelper {
      * 获取actionbar高度
      *
      * @param context   上下文
-     * @param actionbar 对应的ActionBar
+     * @param actionBar 对应的ActionBar
      * @return int ActionBar的高度值
      */
-    public static int getActionBarHeight(Context context, ActionBar actionbar) {
-        if (actionbar != null) {
-            TypedValue tv = new TypedValue();
-            if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize,
-                    tv, true)) {
-                return TypedValue.complexToDimensionPixelSize(tv.data, context
-                        .getResources().getDisplayMetrics());
+    public static int getActionBarHeight(Context context, ActionBar actionBar) {
+        Resources.Theme theme = context.getTheme();
+
+        if (theme != null && actionBar != null) {
+            TypedValue value = new TypedValue();
+
+            if (theme.resolveAttribute(android.R.attr.actionBarSize, value, true)) {
+                return TypedValue.complexToDimensionPixelSize(
+                        value.data, context.getResources().getDisplayMetrics());
             }
-            return actionbar.getHeight();
+
+            return actionBar.getHeight();
         }
+
         return 0;
     }
 
