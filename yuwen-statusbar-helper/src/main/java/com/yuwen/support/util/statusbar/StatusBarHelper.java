@@ -1,6 +1,5 @@
 package com.yuwen.support.util.statusbar;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -129,8 +128,10 @@ public class StatusBarHelper {
     /**
      * android 6.0设置字体颜色
      */
-    @TargetApi(Build.VERSION_CODES.M)
     private static boolean setUsualStatusBarDarkMode(Window window, boolean dark) {
+        // Android 6.0 以下不支持直接返回 False
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
+
         boolean result = false;
         if (window != null) {
             try {
