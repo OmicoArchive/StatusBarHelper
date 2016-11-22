@@ -218,19 +218,14 @@ public class StatusBarHelper {
      * @return int 状态栏高度
      */
     public static int getStatusBarHeight(Context context) {
-        try {
-            Class<?> c = Class.forName("com.android.internal.R$dimen");
-            Object obj = c.newInstance();
-            Field field = c.getField("status_bar_height");
-            int height = Integer.parseInt(field.get(obj).toString());
-            return context.getResources().getDimensionPixelSize(height);
-        } catch (Exception e) {
-            e.printStackTrace();
+        int result = 0;
+        // 获得状态栏高度在系统中的的Id
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
         }
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            return 73;
-        } else {
-            return 72;
-        }
+
+        return result;
     }
 }
