@@ -1,7 +1,6 @@
 package com.yuwen.support.util.statusbar;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -207,10 +206,17 @@ public class StatusBarHelper {
         return 0;
     }
 
-    public static void setStatusBarHeight(Activity activity, View view) {
+    /**
+     * 创建一个状态栏高度
+     *
+     * @param context 上下文
+     * @param view    要设置的布局
+     * @return int 状态栏高度
+     */
+    public static void setStatusBarHeight(Context context, View view) {
         view.setPadding(
                 view.getPaddingLeft(),
-                StatusBarHelper.getStatusBarHeight(activity),
+                StatusBarHelper.getStatusBarHeight(context),
                 view.getPaddingRight(),
                 view.getPaddingBottom());
     }
@@ -225,11 +231,9 @@ public class StatusBarHelper {
         int result = 0;
         // 获得状态栏高度在系统中的的Id
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-
         if (resourceId > 0) {
             result = context.getResources().getDimensionPixelSize(resourceId);
         }
-
         return result;
     }
 }

@@ -51,6 +51,6 @@ public class ListViewActivity extends Activity {
         //设置状态栏图标文字为深色
         StatusBarHelper.setStatusBarDarkMode(getWindow(),true);
 
-        StatusBarHelper.setStatusBarHeight(ListViewActivity.this, mListView);
+        StatusBarHelper.setStatusBarHeight(getBaseContext(), mListView);
     }
 }
