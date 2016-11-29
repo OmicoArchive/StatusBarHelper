@@ -47,8 +47,8 @@ public class ListViewActivity extends Activity {
 
         //设置状态栏透明
         StatusBarHelper.setImmersiveWindow(getWindow(), true);
-        //设置状态栏图标文字为深色
 
+        //设置状态栏图标文字为深色
         StatusBarHelper.setStatusBarDarkMode(getWindow(),true);
 
         StatusBarHelper.setStatusBarHeight(ListViewActivity.this, mListView);

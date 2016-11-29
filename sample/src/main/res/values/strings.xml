@@ -2,7 +2,7 @@
     <string name="app_name">StatusBarHeplerDemo</string>
 
     <!-- Meizu -->
-    <string name="statusbar_transparent">StatusBar/Flyme沉浸模式示例2</string>
+    <string name="title_activity_list_view">ListViewActivity</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

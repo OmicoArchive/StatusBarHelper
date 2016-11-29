@@ -33,25 +33,29 @@ public class StatusBarHelper {
     public static boolean setImmersiveWindow(Window window, boolean immersive) {
         boolean result = false;
         if (window != null) {
+            int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
             if (immersive) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
                 systemUiVisibility |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
                 systemUiVisibility |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-                window.getDecorView().setSystemUiVisibility(systemUiVisibility);
             } else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
                 systemUiVisibility &= ~View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
                 systemUiVisibility &= ~View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-                window.getDecorView().setSystemUiVisibility(systemUiVisibility);
             }
+            window.getDecorView().setSystemUiVisibility(systemUiVisibility);
             result = true;
         }
         return result;
     }
 
-
+    /**
+     * 设置状态栏图标为深色及黑色文字风格
+     *
+     * @param window 需要设置的窗口
+     * @param dark   是否把状态栏颜色设置为深色
+     * @return boolean  成功执行返回true
+     */
     public static boolean setStatusBarDarkMode(Window window, boolean dark) {
         boolean result = false;
         if (isMIUI6Later()) {
@@ -64,9 +68,8 @@ public class StatusBarHelper {
         return result;
     }
 
-
     /**
-     * 设置状态栏图标为深色和魅族特定的文字风格
+     * 设置 MIUI 状态栏图标为深色及黑色文字风格
      *
      * @param window 需要设置的窗口
      * @param dark   是否把状态栏颜色设置为深色
@@ -89,9 +92,8 @@ public class StatusBarHelper {
         return result;
     }
 
-
     /**
-     * 设置状态栏图标为深色和魅族特定的文字风格
+     * 设置 Flyme 状态栏图标为深色及黑色文字风格
      *
      * @param window 需要设置的窗口
      * @param dark   是否把状态栏颜色设置为深色
@@ -127,29 +129,30 @@ public class StatusBarHelper {
 
 
     /**
-     * android 6.0设置字体颜色
+     * 设置 Android 6.0 以上状态栏图标为深色及黑色文字风格
+     *
+     * @param window 需要设置的窗口
+     * @param dark   是否把状态栏颜色设置为深色
+     * @return boolean 成功执行返回true
      */
     private static boolean setUsualStatusBarDarkMode(Window window, boolean dark) {
         // Android 6.0 以下不支持直接返回 False
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
-
         boolean result = false;
         if (window != null) {
             try {
+                int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
                 if (dark) {
                     window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                     window.setStatusBarColor(Color.TRANSPARENT);
-                    int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
                     systemUiVisibility |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    window.getDecorView().setSystemUiVisibility(systemUiVisibility);
                 } else {
                     window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                     window.clearFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
                     systemUiVisibility &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    window.getDecorView().setSystemUiVisibility(systemUiVisibility);
                 }
+                window.getDecorView().setSystemUiVisibility(systemUiVisibility);
                 result = true;
             } catch (Exception e) {
                 Log.e(TAG, "setUsualStatusBarDarkMode: failed");
@@ -159,7 +162,7 @@ public class StatusBarHelper {
     }
 
     /**
-     * 判断是否为MIUI6以上
+     * 判断是否为 MIUI6 以上
      */
     public static boolean isMIUI6Later() {
         try {
@@ -175,7 +178,7 @@ public class StatusBarHelper {
     }
 
     /**
-     * 判断是否Flyme4以上
+     * 判断是否 Flyme4 以上
      */
     public static boolean isFlyme4Later() {
         return Build.FINGERPRINT.contains("Flyme_OS_4")
@@ -185,7 +188,7 @@ public class StatusBarHelper {
     }
 
     /**
-     * 获取actionbar高度
+     * 获取ActionBar高度
      *
      * @param context   上下文
      * @param actionBar 对应的ActionBar
@@ -193,18 +196,14 @@ public class StatusBarHelper {
      */
     public static int getActionBarHeight(Context context, ActionBar actionBar) {
         Resources.Theme theme = context.getTheme();
-
         if (theme != null && actionBar != null) {
             TypedValue value = new TypedValue();
-
             if (theme.resolveAttribute(android.R.attr.actionBarSize, value, true)) {
                 return TypedValue.complexToDimensionPixelSize(
                         value.data, context.getResources().getDisplayMetrics());
             }
-
             return actionBar.getHeight();
         }
-
         return 0;
     }
 

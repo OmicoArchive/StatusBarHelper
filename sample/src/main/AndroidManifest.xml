@@ -17,10 +17,10 @@
         </activity>
 
         <!-- StatusBar Samples -->
-
         <activity
             android:name=".ListViewActivity"
-            android:label="@string/statusbar_transparent">
+            android:label="@string/title_activity_list_view"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".ScrollingActivity"
@@ -33,5 +33,4 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
-
 </manifest>
