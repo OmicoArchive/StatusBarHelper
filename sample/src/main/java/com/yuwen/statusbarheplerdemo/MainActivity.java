@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
-    RelativeLayout demo1, demo2, demo3;
+    RelativeLayout demo1, demo2, demo3,demo4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, ScrollingActivity.class));
+            }
+        });
+
+        demo4 = (RelativeLayout) findViewById(R.id.demo4);
+        demo4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, NavigationDrawerScrollingActivity.class));
             }
         });
     }

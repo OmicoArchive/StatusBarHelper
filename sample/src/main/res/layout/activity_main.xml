@@ -50,4 +50,17 @@
             android:layout_centerVertical="true"
             android:text="ScrollingActivity"/>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/demo4"
+        android:layout_width="match_parent"
+        android:layout_height="68dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="NavigationDrawerScrollingActivity"/>
+    </RelativeLayout>
 </LinearLayout>
