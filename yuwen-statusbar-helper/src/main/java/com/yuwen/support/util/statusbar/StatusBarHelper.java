@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -54,15 +53,15 @@ public class StatusBarHelper {
     /**
      * 设置沉浸式窗口，设置成功后，状态栏则透明显示(含有 DrawerLayout 的布局专用)
      *
-     * @param context    Activity 的上下文
+     * @param context      Activity 的上下文
      * @param drawerLayout Activity 的 DrawerLayout
-     * @param toolbar Activity 的 ToolBar
+     * @param toolbar      Activity 的 ToolBar
      */
     public static void setImmersiveWindowForDrawer(
             Context context, DrawerLayout drawerLayout, ViewGroup toolbar) {
         drawerLayout.setFitsSystemWindows(false);
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) toolbar.getLayoutParams();
-        params.topMargin = StatusBarHelper.getStatusBarHeight(context);
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) toolbar.getLayoutParams();
+        params.setMargins(0, getStatusBarHeight(context), 0, 0);
     }
 
     /**
